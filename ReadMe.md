@@ -2,6 +2,8 @@
 
 **Confetti** is a simple simulation written in Rust using the [macroquad](https://macroquad.rs/) library. It showcases the behavior of falling balls that collide with each other and the screen boundaries. This project demonstrates basic physics simulations, collision detection, and visual rendering.
 
+![Confetti Simulation Showcase](./image.png)
+
 ## Features
 - **Real-time physics**: Gravity, drag, and floor collision with energy loss.
 - **Collision detection**: Balls interact dynamically, reflecting off each other with simple physics.
@@ -9,8 +11,8 @@
 - **Dynamic rendering**: Smooth animations using the `macroquad` game loop.
 
 ## Controls
-- **Left Mouse Button**: Spawn a ball at the mouse position.
-- **Right Mouse Button**: Spawn a ball at the mouse position.
+- **Left Mouse Button**: Spawn a ball at the mouse position per frame.
+- **Right Mouse Button**: Spawn a single ball at the mouse position.
 
 ## Requirements
 - **Rust**: Ensure you have the latest version of Rust installed. You can install it from [rust-lang.org](https://www.rust-lang.org/).
