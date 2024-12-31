@@ -118,6 +118,13 @@ async fn main() {
             balls.push(Ball::new(mouse_x, mouse_y ,frame_count))
         }
 
+        if is_key_pressed(KeyCode::Space) {
+            unsafe {
+                BALL_ID = 0;
+                balls.clear();
+            }
+        }
+
         // Handle Tick
         let balls_prev = balls.to_vec();        
         for ball in &mut balls {
@@ -130,8 +137,8 @@ async fn main() {
             if BALL_ID == 0 {
                 draw_text("Click anywhere to begin!", screen_width()/2.0 - 240.0, screen_height()/2.0, 48.0, RED);
             }else{
-                draw_text(&format!("Balls: {}", BALL_ID), 15.0, 25.0, 32.0, BLACK);
-            }
+                draw_text(&format!("Balls{}: {}", if BALL_ID > 999 {" (Press Space to Reset)"} else {""}, BALL_ID), 15.0, 25.0, 32.0, BLACK);
+            }            
         }
 
         next_frame().await

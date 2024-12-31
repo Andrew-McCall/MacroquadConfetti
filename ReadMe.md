@@ -13,6 +13,7 @@
 ## Controls
 - **Left Mouse Button**: Spawn a ball at the mouse position per frame.
 - **Right Mouse Button**: Spawn a single ball at the mouse position.
+- **Space Bar**: Clears all balls.
 
 ## Requirements
 - **Rust**: Ensure you have the latest version of Rust installed. You can install it from [rust-lang.org](https://www.rust-lang.org/).
