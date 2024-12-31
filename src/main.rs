@@ -15,8 +15,8 @@ pub struct Ball {
 static mut BALL_ID : usize = 0;
 const GRAVITY: f32 = 1.0;
 const BALL_RADIUS: f32 = 6.0;
-const FLOOR_LOSS: f32 = 1.01;
-const DRAG: f32 = 1.0;
+const FLOOR_LOSS: f32 = 0.8;
+const DRAG: f32 = 0.95;
 const BALL_RADIUS_SQR: f32= BALL_RADIUS * BALL_RADIUS;
 
 impl Ball {
