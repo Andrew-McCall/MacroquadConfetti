@@ -1,5 +1,7 @@
-use std::u8;
+// Andrew McCall <3
+// https://github.com/Andrew-McCall/MacroquadConfetti
 
+use std::u8;
 use macroquad::prelude::*;
 
 #[derive(Debug, Clone, Copy)]
