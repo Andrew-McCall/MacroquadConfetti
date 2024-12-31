@@ -123,7 +123,11 @@ async fn main() {
         }   
 
         unsafe {
-            draw_text(&format!("Balls: {}", BALL_ID), 15.0, 25.0, 32.0, BLACK);
+            if BALL_ID == 0 {
+                draw_text("Click anywhere to begin!", screen_width()/2.0 - 240.0, screen_height()/2.0, 48.0, RED);
+            }else{
+                draw_text(&format!("Balls: {}", BALL_ID), 15.0, 25.0, 32.0, BLACK);
+            }
         }
 
         next_frame().await
