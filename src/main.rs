@@ -14,11 +14,15 @@ pub struct Ball {
     color: Color,
 }
 
-static mut BALL_ID : usize = 0;
+// Customizable
+const FLOOR_LOSS: f32 = 0.98;
+const DRAG: f32 = 0.998;
 const GRAVITY: f32 = 1.0;
+
 const BALL_RADIUS: f32 = 6.0;
-const FLOOR_LOSS: f32 = 0.8;
-const DRAG: f32 = 0.95;
+
+// Please, don't change
+static mut BALL_ID : usize = 0;
 const BALL_RADIUS_SQR: f32= BALL_RADIUS * BALL_RADIUS;
 
 impl Ball {
@@ -32,7 +36,7 @@ impl Ball {
         let seed = seed % (usize::MAX/64);
         let random = (32_1239 * seed*seed*seed* 17 + id)% 1000 ;
         let x_vel = random % 9;
-        let x_vel =  (x_vel as f32 - 4.0) / 4.0;
+        let x_vel =  (x_vel as f32 - 4.0) / 2.0;
 
         return Ball{id, x, y, x_vel, y_vel:0.0, color:Color::from_rgba((random as usize*47%255) as u8, (random as usize*29%255) as u8, (random as usize*101%255) as u8, u8::MAX)}
     }
