@@ -1,8 +1,41 @@
 // Andrew McCall <3
 // https://github.com/Andrew-McCall/MacroquadConfetti
 
-use std::u8;
+use std::{process::exit, u8};
 use macroquad::prelude::*;
+
+fn clip(pos:f32, bound: f32, velocity:f32) -> f32{
+    if pos > bound {
+        let delta = (pos - bound).abs();
+        if !delta.is_normal(){
+            println!("PANIC! {} {} {}", pos, bound, velocity);
+            exit(1);
+        }
+        let mut new_velocity = velocity;
+        if velocity > 0.0 {
+            new_velocity = -velocity
+        }
+        if (new_velocity.abs() + BALL_RADIUS) < delta {
+            return delta
+        }
+        return new_velocity*FLOOR_LOSS
+    }
+    return  velocity;
+}
+
+fn clip_zero(pos:f32, velocity:f32) -> f32{
+    if pos < 0.0 {
+        let mut new_velocity = velocity;
+        if velocity < 0.0 {
+            new_velocity = -velocity
+        }
+        if (new_velocity.abs() + BALL_RADIUS) < pos {
+            return pos
+        }
+        return new_velocity*FLOOR_LOSS
+    }
+    return  velocity;
+}
 
 #[derive(Debug, Clone, Copy)]
 pub struct Ball {
@@ -15,9 +48,10 @@ pub struct Ball {
 }
 
 // Customizable
-const FLOOR_LOSS: f32 = 0.98;
+const FLOOR_LOSS: f32 = 0.9;
 const DRAG: f32 = 0.998;
 const GRAVITY: f32 = 1.0;
+const MAX_VEL: f32 = 50.0;
 
 const BALL_RADIUS: f32 = 6.0;
 
@@ -48,19 +82,9 @@ impl Ball {
         self.x += self.x_vel;
         self.y += self.y_vel;
 
-        if self.y > screen_height(){
-            // self.y = screen_height();
-            self.y_vel = -(self.y_vel.abs()) * FLOOR_LOSS;
-            if (self.y + self.y_vel) > screen_height(){
-                self.y_vel = screen_height() - self.y
-            }
-        }else{
-            self.y_vel += GRAVITY;
-        }
-
-        if self.x < 0.0 || self.x > screen_width(){
-            self.x_vel = -self.x_vel * FLOOR_LOSS;
-        }
+        self.y_vel = clip(self.y, screen_height(), self.y_vel + GRAVITY);
+        self.x_vel = clip(self.x, screen_width(), self.x_vel);
+        self.x_vel = -clip(0.0, self.x, -self.x_vel);
     }
 
     fn draw(&self){
@@ -98,8 +122,10 @@ impl Ball {
 
             let impulse = (2.0 * relative_velocity_normal) / 2.0 * FLOOR_LOSS;
 
-            self.x_vel -= impulse * nx;
-            self.y_vel -= impulse * ny;
+            self.x_vel -=  (impulse * nx).clamp(-MAX_VEL, MAX_VEL);
+            self.y_vel -= (impulse * ny).clamp(-MAX_VEL, MAX_VEL);
+            
+           
         }
     }
 
