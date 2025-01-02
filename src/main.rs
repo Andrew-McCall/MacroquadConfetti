@@ -50,7 +50,10 @@ impl Ball {
 
         if self.y > screen_height(){
             // self.y = screen_height();
-            self.y_vel = -self.y_vel * FLOOR_LOSS;
+            self.y_vel = -(self.y_vel.abs()) * FLOOR_LOSS;
+            if (self.y + self.y_vel) > screen_height(){
+                self.y_vel = screen_height() - self.y
+            }
         }else{
             self.y_vel += GRAVITY;
         }
@@ -137,7 +140,7 @@ async fn main() {
             if BALL_ID == 0 {
                 draw_text("Click anywhere to begin!", screen_width()/2.0 - 240.0, screen_height()/2.0, 48.0, RED);
             }else{
-                draw_text(&format!("Balls{}: {}", if BALL_ID > 999 {" (Press Space to Reset)"} else {""}, BALL_ID), 15.0, 25.0, 32.0, BLACK);
+                draw_text(&format!("Balls{}: {}\nFPS: {}", if BALL_ID > 999 {" (Press Space to Reset)"} else {""}, BALL_ID, get_fps()), 15.0, 25.0, 32.0, BLACK);
             }            
         }
 
